@@ -5,7 +5,7 @@
   <section>
     <div class="controls">
       <base-button mode="outline">Refresh</base-button>
-      <base-button to="/register">Register as Coach</base-button>
+      <base-button to="/register" link>Register as Coach</base-button>
     </div>
   </section>
   <section>
