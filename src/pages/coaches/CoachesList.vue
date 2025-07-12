@@ -2,32 +2,35 @@
   <h2>COACH LIST</h2>
   <section>
     <div class="controls">
-      <button>Refresh</button>
-      <router-link to="/register">Register as Coach</router-link>
+      <base-button mode="outline">Refresh</base-button>
+      <base-button to="/register">Register as Coach</base-button>
     </div>
   </section>
   <section>
-    <ul v-if="hasCoaches">
-      <coach-item v-for="c in filteredCoaches"
-                  :key="c.id"
-                  :firstName="c.firstName"
-                  :id="c.id"
-                  :lastName="c.lastName"
-                  :areas="c.areas"
-                  :rate="c.hourlyRate"
-      ></coach-item>
+    <base-card>
+      <ul v-if="hasCoaches">
+        <coach-item v-for="c in filteredCoaches"
+                    :key="c.id"
+                    :first-name="c.firstName"
+                    :id="c.id"
+                    :last-name="c.lastName"
+                    :areas="c.areas"
+                    :rate="c.hourlyRate">
+        </coach-item>
 
-    </ul>
-    <h3 v-else>No Coaches Found</h3>
+      </ul>
+      <h3 v-else>No Coaches Found</h3>
+    </base-card>
   </section>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import CoachItem from '@/components/CoachItem.vue';
+import BaseCard from '@/ui/BaseCard.vue';
 
 export default {
-  components: { CoachItem },
+  components: { BaseCard, CoachItem },
   computed: {
     filteredCoaches() {
       return this.$store.getters['coaches/allCoaches'];
