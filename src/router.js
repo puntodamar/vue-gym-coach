@@ -27,7 +27,13 @@ const router = createRouter({
           component: ContactCoach,
         }
       ]
-    }, {
+    },
+    // {
+    //   path: '/coaches/:id/contact',
+    //   component: ContactCoach,
+    // },
+    
+    {
       path: '/register/',
       component: CoachesRegister,
     }, {

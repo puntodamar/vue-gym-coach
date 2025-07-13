@@ -98,13 +98,12 @@ export default {
     submit() {
 
       if (this.validateForm()) {
-        console.log("valid form")
         const formData = {
-          firstName: this.firstName,
-          lastName: this.lastName,
-          description: this.description,
-          rate: this.rate,
-          areas: this.areas,
+          firstName: this.firstName.value,
+          lastName: this.lastName.value,
+          description: this.description.value,
+          rate: this.rate.value,
+          areas: this.areas.value,
         }
 
         this.$emit('submit-coach', formData)
