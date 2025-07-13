@@ -5,7 +5,7 @@
   <section>
     <div class="controls">
       <base-button mode="outline">Refresh</base-button>
-      <base-button to="/register" link>Register as Coach</base-button>
+      <base-button to="/register" link v-if="!isACoach">Register as Coach</base-button>
     </div>
   </section>
   <section>
@@ -55,14 +55,13 @@ export default {
           return true
         }
 
-        if (this.activeFilters.career && coach.areas.includes('career')) {
-          return true
-        }
+        return this.activeFilters.career && coach.areas.includes('career');
 
-        return false
+
       })
     },
-    ...mapGetters('coaches', ['hasCoaches']),
+
+    ...mapGetters('coaches', ['hasCoaches', 'isACoach']),
   },
   methods: {
     setFilters(filters) {
