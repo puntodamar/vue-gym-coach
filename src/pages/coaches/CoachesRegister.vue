@@ -2,7 +2,7 @@
   <section>
 <base-card>
   <h2>Register as a coach now!</h2>
-  <coach-form></coach-form>
+  <coach-form @submit-coach="submitCoach"></coach-form>
 </base-card>
   </section>
 </template>
@@ -15,6 +15,11 @@ export default {
   components: {
     BaseCard,
     CoachForm
+  },
+  methods: {
+    submitCoach(formData) {
+      this.$store.dispatch('coaches/addCoach', formData)
+    }
   }
 }
 </script>

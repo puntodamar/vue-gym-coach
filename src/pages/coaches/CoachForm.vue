@@ -42,6 +42,7 @@
 
 <script>
 export default {
+  emits: ['submit-coach'],
   data() {
     return {
       firstName: '',
@@ -61,7 +62,9 @@ export default {
         areas: this.areas,
       }
 
-      console.log(formData)
+      this.$emit('submit-coach', formData)
+      // this.$router.push('/coaches')
+      this.$router.replace('/coaches')
     }
   }
 }
