@@ -4,13 +4,16 @@
   </section>
   <section>
     <div class="controls">
-      <base-button mode="outline">Refresh</base-button>
+      <base-button mode="outline" @click="getCoaches">Refresh</base-button>
       <base-button to="/register" link v-if="!isACoach">Register as Coach</base-button>
     </div>
   </section>
   <section>
     <base-card>
-      <ul v-if="hasCoaches">
+      <div v-if="isLoading">
+        <base-spinner></base-spinner>
+      </div>
+      <ul v-else-if="hasCoaches">
         <coach-item v-for="c in filteredCoaches"
                     :key="c.id"
                     :first-name="c.firstName"
@@ -29,7 +32,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import CoachItem from '@/components/CoachItem.vue';
-import BaseCard from '@/ui/BaseCard.vue';
 import CoachFilter from '@/pages/coaches/CoachFilter.vue';
 
 export default {
@@ -39,47 +41,64 @@ export default {
         frontend: true,
         backend: true,
         career: true
-      }
-    }
+      },
+      isLoading: false,
+      error: null
+    };
   },
-  components: { CoachFilter, BaseCard, CoachItem },
+  components: { CoachFilter, CoachItem },
   computed: {
     filteredCoaches() {
       const coaches = this.$store.getters['coaches/allCoaches'];
       return coaches.filter(coach => {
         if (this.activeFilters.frontend && coach.areas.includes('frontend')) {
-          return true
+          return true;
         }
 
         if (this.activeFilters.backend && coach.areas.includes('backend')) {
-          return true
+          return true;
         }
 
         return this.activeFilters.career && coach.areas.includes('career');
 
 
-      })
+      });
     },
-
-    ...mapGetters('coaches', ['hasCoaches', 'isACoach']),
+    hasCoaches() {
+      return !this.isLoading && this.$store.getters['coaches/hasCoaches'];
+    },
+    ...mapGetters('coaches', ['isACoach'])
+  },
+  created() {
+    this.getCoaches();
   },
   methods: {
     setFilters(filters) {
       this.activeFilters = filters;
+    },
+    async getCoaches() {
+      this.isLoading = true;
+      try {
+        await this.$store.dispatch('coaches/getCoaches');
+        setTimeout(() => this.isLoading = false, 3000);
+      } catch (error) {
+        this.error = error.message || 'Something went wrong';
+      }
+
     }
   }
-}
+};
 </script>
 
 <style scoped>
-  ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 
-  .controls {
-    display: flex;
-    justify-content: space-between;
-  }
-  </style>
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+</style>
