@@ -5,7 +5,7 @@ const getters = {
   },
   hasRequests(_, getters) {
     return  getters.receivedRequests && getters.receivedRequests.length > 0
-  }
+  },
 }
 
 export default getters;

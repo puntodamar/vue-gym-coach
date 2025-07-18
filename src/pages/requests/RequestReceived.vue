@@ -4,7 +4,8 @@
       <header>
         <h2>Request Received</h2>
       </header>
-      <ul v-if="hasRequests">
+      <base-spinner v-if="isLoading"></base-spinner>
+      <ul v-else-if="hasRequests">
         <request-item v-for="r in receivedRequests" :key="r.id" :message="r.message" :email="r.userEmail"></request-item>
       </ul>
       <h3 v-else>You havent received any requests yet!</h3>
@@ -18,6 +19,27 @@
 
   export default {
     components: { RequestItem },
+    data() {
+      return {
+        isLoading: false,
+      }
+    },
+    created() {
+      this.getRequests();
+    },
+    methods: {
+      async getRequests() {
+        this.isLoading = true;
+        try {
+          await this.$store.dispatch('requests/getCoachRequests');
+          setTimeout(() => this.isLoading = false, 500);
+        } catch (error) {
+          this.error = error.message || 'Something went wrong';
+          this.isLoading = false;
+        }
+
+      }
+    },
     computed: {
       ...mapGetters('requests', ['hasRequests', 'receivedRequests']),
     }

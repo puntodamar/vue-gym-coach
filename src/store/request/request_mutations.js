@@ -4,7 +4,7 @@ const mutations = {
   },
   setRequests(state, payload) {
     state.requests = payload;
-  }
+  },
 }
 
 export default mutations;

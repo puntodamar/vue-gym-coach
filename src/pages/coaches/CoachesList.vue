@@ -7,7 +7,7 @@
   </section>
   <section>
     <div class="controls">
-      <base-button mode="outline" @click="getCoaches">Refresh</base-button>
+      <base-button mode="outline" @click="getCoaches" v-if="!isLoading">Refresh</base-button>
       <base-button to="/register" link v-if="!isACoach">Register as Coach</base-button>
     </div>
   </section>
@@ -46,7 +46,7 @@ export default {
         career: true
       },
       isLoading: false,
-      error: null
+      error: null,
     };
   },
   components: { CoachFilter, CoachItem },
@@ -87,7 +87,7 @@ export default {
       this.isLoading = true;
       try {
         await this.$store.dispatch('coaches/getCoaches');
-        setTimeout(() => this.isLoading = false, 3000);
+        setTimeout(() => this.isLoading = false, 500);
       } catch (error) {
         this.error = error.message || 'Something went wrong';
         this.isLoading = false;

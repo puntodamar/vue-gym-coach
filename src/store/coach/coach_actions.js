@@ -2,7 +2,7 @@ const actions = {
   async addCoach(context, coach) {
     const coachData = {
       // id: new Date().toISOString(),
-      id: context.rootGetters.userId,
+      // id: context.rootGetters.userId,
       firstName: coach.firstName,
       lastName: coach.lastName,
       description: coach.description,
@@ -10,15 +10,18 @@ const actions = {
       areas: coach.areas,
     }
     
-    const request = await fetch(`https://vue-http-demo-85943-default-rtdb.asia-southeast1.firebasedatabase.app/coaches/${coachData.id}.json`, {
-      method: 'PUT',
+    const request = await fetch(`https://vue-http-demo-85943-default-rtdb.asia-southeast1.firebasedatabase.app/coaches.json`, {
+      method: 'POST',
       body: JSON.stringify(coachData),
     })
     
+    const response = await request.json()
     if (request.ok) {
       context.commit('addCoach', coachData)
+      await context.dispatch('setUserId', response.name, {root: true})
     } else {
-      alert('error')
+      
+      alert(response.message)
     }
   },
   

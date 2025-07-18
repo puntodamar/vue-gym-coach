@@ -4,7 +4,7 @@ import requestStore from './request/request_store';
 
 const store = createStore({
   state: {
-    userId: 'c3',
+    userId: null,
   },
     modules: {
       coaches: coachStore,
@@ -12,6 +12,12 @@ const store = createStore({
     },
   getters: {
     userId: state => state.userId,
+  },
+  actions: {
+    setUserId(state, payload) {
+      state.userId = payload;
+      console.log("usr id sekaarang", state.userId);
+    }
   }
   }
 );
