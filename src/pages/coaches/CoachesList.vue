@@ -1,4 +1,7 @@
 <template>
+  <base-dialog  :show="!!error" title="Error occured" @close="handleError">
+    <p>{{error}}</p>
+  </base-dialog>
   <section>
     <coach-filter @change-filter="setFilters"></coach-filter>
   </section>
@@ -63,6 +66,7 @@ export default {
 
 
       });
+
     },
     hasCoaches() {
       return !this.isLoading && this.$store.getters['coaches/hasCoaches'];
@@ -73,6 +77,9 @@ export default {
     this.getCoaches();
   },
   methods: {
+    handleError( ) {
+      this.error = null;
+    },
     setFilters(filters) {
       this.activeFilters = filters;
     },
@@ -83,7 +90,10 @@ export default {
         setTimeout(() => this.isLoading = false, 3000);
       } catch (error) {
         this.error = error.message || 'Something went wrong';
+        this.isLoading = false;
       }
+
+
 
     }
   }

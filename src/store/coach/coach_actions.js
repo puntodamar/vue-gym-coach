@@ -24,14 +24,8 @@ const actions = {
   
   async getCoaches(context) {
     const request = await fetch(`https://vue-http-demo-85943-default-rtdb.asia-southeast1.firebasedatabase.app/coaches.json`,)
-    
     if (request.ok) {
       const response = await request.json()
-      
-      if (!response.ok) {
-        throw new Error(response.message || 'Failed to fetch coaches')
-      }
-      
       const coaches = []
       
       for (const key in response) {
@@ -45,7 +39,8 @@ const actions = {
       }
       context.commit('setCoaches', coaches)
     } else {
-alert('error')
+      this.error = "dsdsds"
+
     }
   }
 }

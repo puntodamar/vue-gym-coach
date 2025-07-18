@@ -5,7 +5,7 @@ const getters = {
   hasCoaches(state) {
     return state.coaches && state.coaches.length > 0;
   },
-  isACoach(_, getters, _2, rootGetters) {
+  isACoach(state, getters, rootSetters, rootGetters) {
     const coaches = getters.allCoaches
     const userId = rootGetters.userId
     return coaches.some(coach => coach.id === userId);
