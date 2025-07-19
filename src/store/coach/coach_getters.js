@@ -17,7 +17,7 @@ const getters = {
       return (currentTime - lastFetch) / 1000 > 60
     }
     else return true
-  }
+  },
 }
 
 export default getters;

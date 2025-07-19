@@ -28,6 +28,9 @@ const actions = {
     if (!context.getters.shouldUpdate && !payload.forceRefresh) {
       return
     }
+    
+    // const token = context.rootGetters.token
+    
     const request = await fetch(`https://vue-http-demo-85943-default-rtdb.asia-southeast1.firebasedatabase.app/coaches.json`,)
     if (request.ok) {
       const response = await request.json()

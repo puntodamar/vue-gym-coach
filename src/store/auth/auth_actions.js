@@ -1,6 +1,7 @@
 
 const actions = {
   async login(context, payload) {
+    
     const request = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAZDQwsR7TRQpq0CNldR059ebfDMOeZFqo', {
       method: 'POST',
       body: JSON.stringify({

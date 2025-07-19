@@ -22,8 +22,10 @@ const actions = {
   },
   async getCoachRequests(context,) {
     const coachId = context.rootGetters.userId
+    const token = context.rootGetters.token
+    
     if (coachId) {
-      const request = await fetch(`https://vue-http-demo-85943-default-rtdb.asia-southeast1.firebasedatabase.app/requests/${coachId}.json`,)
+      const request = await fetch(`https://vue-http-demo-85943-default-rtdb.asia-southeast1.firebasedatabase.app/requests/${coachId}.json?auth=${token}`, {})
       
       const response = await request.json()
       

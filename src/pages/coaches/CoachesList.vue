@@ -12,7 +12,8 @@
         <section>
           <div class="controls">
             <base-button mode="outline" @click="getCoaches(true)" v-if="!isLoading">Refresh</base-button>
-            <base-button to="/register" link v-if="!isACoach && !isLoading">Register as Coach</base-button>
+            <base-button v-if="!isAuthenticated" link to="/login">Login</base-button>
+            <base-button to="/register" link v-if="!isACoach && !isLoading && isAuthenticated">Register as Coach</base-button>
           </div>
         </section>
         <div v-if="isLoading">
@@ -36,7 +37,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters,  } from 'vuex';
 import CoachItem from '@/components/CoachItem.vue';
 import CoachFilter from '@/pages/coaches/CoachFilter.vue';
 
@@ -54,6 +55,10 @@ export default {
   },
   components: { CoachFilter, CoachItem },
   computed: {
+    // isAuthenticated: () => this.$store.getters.isAuthenticated,
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated
+    },
     filteredCoaches() {
       const coaches = this.$store.getters['coaches/allCoaches'];
       return coaches.filter(coach => {
@@ -71,21 +76,15 @@ export default {
       });
 
     },
-    hasCoaches() {
-      return !this.isLoading && this.hasCoaches;
-    },
+    hasCoaches: () => !this.isLoading && this.hasCoaches,
     ...mapGetters('coaches', ['isACoach', 'hasCoaches'])
   },
   created() {
     this.getCoaches();
   },
   methods: {
-    handleError( ) {
-      this.error = null;
-    },
-    setFilters(filters) {
-      this.activeFilters = filters;
-    },
+    handleError: () => this.error = null,
+    setFilters: (filters) => this.activeFilters = filters,
     async getCoaches(refresh = false) {
       if (refresh) {
         this.isLoading = true;

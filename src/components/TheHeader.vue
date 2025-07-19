@@ -5,7 +5,8 @@
     <ul>
       <li></li>
       <li><router-link to="/coaches">All Coaches</router-link></li>
-      <li><router-link to="/requests">Requests</router-link></li>
+      <li v-if="isAuthenticated"><router-link to="/requests">Requests</router-link></li>
+      <li v-else><router-link to="/login">Login</router-link></li>
     </ul>
   </nav>
 </header>
@@ -71,5 +72,12 @@ li {
   margin: 0 0.5rem;
 }
 </style>
-<script setup lang="ts">
+<script>
+  export default {
+    computed: {
+      isAuthenticated() {
+        return this.$store.getters.isAuthenticated
+      }
+    }
+  }
 </script>
