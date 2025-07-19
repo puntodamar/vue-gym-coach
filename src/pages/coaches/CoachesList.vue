@@ -6,14 +6,15 @@
     <section>
       <coach-filter @change-filter="setFilters"></coach-filter>
     </section>
-    <section>
-      <div class="controls">
-        <base-button mode="outline" @click="getCoaches(true)" v-if="!isLoading">Refresh</base-button>
-        <base-button to="/register" link v-if="!isACoach && !isLoading">Register as Coach</base-button>
-      </div>
-    </section>
+
     <section>
       <base-card>
+        <section>
+          <div class="controls">
+            <base-button mode="outline" @click="getCoaches(true)" v-if="!isLoading">Refresh</base-button>
+            <base-button to="/register" link v-if="!isACoach && !isLoading">Register as Coach</base-button>
+          </div>
+        </section>
         <div v-if="isLoading">
           <base-spinner></base-spinner>
         </div>
