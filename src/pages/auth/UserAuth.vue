@@ -1,21 +1,28 @@
 <template>
+  <div>
+    <base-dialog :show="!!error" title="An error occured" @close="handleError">
+      <p>{{error}}</p>
+    </base-dialog>
+    <base-dialog fixed title="Authenticating..." :show="isLoading">
+      <base-spinner></base-spinner>
+    </base-dialog>
+    <base-card>
+      <form @submit.prevent>
+        <div class="form-control">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" v-model.trim="email">
+        </div>
 
-  <base-card>
-    <form @submit.prevent>
-      <div class="form-control">
-        <label for="email">E-mail</label>
-        <input type="email" id="email" v-model.trim="email">
-      </div>
-
-      <div class="form-control">
-        <label for="password">Password</label>
-        <input type="password" id="password" v-model.trim="password">
-      </div>
-      <p v-if="!formValid">Please enter valid values</p>
-      <base-button @click="submitForm">{{submitButtonCaption}}</base-button>
-      <base-button type="button" mode="flat" @click="switchMode">{{switchModeButtonCaption}}</base-button>
-    </form>
-  </base-card>
+        <div class="form-control">
+          <label for="password">Password</label>
+          <input type="password" id="password" v-model.trim="password">
+        </div>
+        <p v-if="!formValid">Please enter valid values</p>
+        <base-button @click="submitForm">{{submitButtonCaption}}</base-button>
+        <base-button type="button" mode="flat" @click="switchMode">{{switchModeButtonCaption}}</base-button>
+      </form>
+    </base-card>
+  </div>
 
 </template>
 
@@ -52,13 +59,18 @@ input:focus {
 </style>
 
 <script>
+  import BaseSpinner from '@/ui/BaseSpinner.vue';
+
   export default {
+    components: { BaseSpinner },
     data() {
       return {
         email: '',
         password: '',
         mode: 'login',
         formValid: true,
+        isLoading: false,
+        error: null
       }
     },
     computed: {
@@ -76,20 +88,31 @@ input:focus {
           return
         }
 
-        if (this.mode === 'login') {
-          console.log('login')
-        } else {
-          await this.$store.dispatch('signUp', {
-            email: this.email, password: this.password
-          })
+        try {
+          this.isLoading = true
+          const payload = {email: this.email, password: this.password}
 
+
+          if (this.mode === 'login') {
+            await this.$store.dispatch('login', payload)
+
+          } else {
+            await this.$store.dispatch('signUp', payload)
+          }
+
+          this.isLoading = false
           this.$router.replace('/')
         }
-
-
+        catch (error) {
+          this.isLoading = false
+          this.error = error.message
+        }
       },
       switchMode() {
         this.mode = this.mode === 'login' ? 'signup' : 'login'
+      },
+      handleError() {
+        this.error = null
       }
     }
   }
