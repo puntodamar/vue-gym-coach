@@ -25,7 +25,10 @@ const actions = {
     }
   },
   
-  async getCoaches(context) {
+  async getCoaches(context, payload) {
+    if (!context.getters.shouldUpdate && !payload.forceRefresh) {
+      return
+    }
     const request = await fetch(`https://vue-http-demo-85943-default-rtdb.asia-southeast1.firebasedatabase.app/coaches.json`,)
     if (request.ok) {
       const response = await request.json()
@@ -41,6 +44,7 @@ const actions = {
         })
       }
       context.commit('setCoaches', coaches)
+      context.commit('setLastFetch')
     } else {
       this.error = "dsdsds"
 

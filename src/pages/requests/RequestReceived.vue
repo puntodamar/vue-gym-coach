@@ -1,16 +1,18 @@
 <template>
-  <section>
-    <base-card>
-      <header>
-        <h2>Request Received</h2>
-      </header>
-      <base-spinner v-if="isLoading"></base-spinner>
-      <ul v-else-if="hasRequests">
-        <request-item v-for="r in receivedRequests" :key="r.id" :message="r.message" :email="r.userEmail"></request-item>
-      </ul>
-      <h3 v-else>You havent received any requests yet!</h3>
-    </base-card>
-  </section>
+  <div>
+    <section>
+      <base-card>
+        <header>
+          <h2>Request Received</h2>
+        </header>
+        <base-spinner v-if="isLoading"></base-spinner>
+        <ul v-else-if="hasRequests">
+          <request-item v-for="r in receivedRequests" :key="r.id" :message="r.message" :email="r.userEmail"></request-item>
+        </ul>
+        <h3 v-else>You havent received any requests yet!</h3>
+      </base-card>
+    </section>
+  </div>
 </template>
 
 <script>
