@@ -38,6 +38,9 @@ const actions = {
       throw new Error(response.message || 'Failed to sign up');
     }
   
+  },
+  logout(context) {
+    context.commit('setUserId', {token: null, userId: null, tokenExpiration: null});
   }
 }
 

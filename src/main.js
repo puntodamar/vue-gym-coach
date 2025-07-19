@@ -17,6 +17,19 @@ app.component('base-badge', BaseBadge)
 app.component('base-spinner', BaseSpinner)
 app.component('base-dialog', BaseDialog)
 
+
+router.beforeEach((to, from, next) => {
+  if (!store.getters.isAuthenticated && to.meta.requiresAuth) {
+    return next({ name: 'login' })
+  }
+  else if (store.getters.isAuthenticated && to.meta.requiresUnauth) {
+    return next({ name: 'coaches' })
+  }
+
+  next()
+})
+
+
 router.isReady().then(() => {
   app.mount('#app');
 })

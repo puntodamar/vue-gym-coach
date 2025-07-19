@@ -17,6 +17,7 @@ const router = createRouter({
     },
     {
       path: '/coaches',
+      name: 'coaches',
       component: CoachesList,
     }, {
       path: '/coaches/:id',
@@ -37,13 +38,17 @@ const router = createRouter({
     {
       path: '/register/',
       component: CoachesRegister,
+      meta: {requiresAuth: true},
     }, {
       path: '/requests',
       component: RequestReceived,
+      meta: {requiresAuth: true},
     },
     {
       path: '/login',
-      component: UserAuth
+      name: 'login',
+      component: UserAuth,
+      meta: {requiresUnauth: true},
     },
     
     {
