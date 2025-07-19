@@ -19,8 +19,8 @@ export default {
     CoachForm
   },
   methods: {
-    submitCoach(formData) {
-      this.$store.dispatch('coaches/addCoach', formData)
+    async submitCoach(formData) {
+      await this.$store.dispatch('coaches/addCoach', formData)
     }
   }
 }

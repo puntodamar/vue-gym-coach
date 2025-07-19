@@ -72,9 +72,9 @@ export default {
 
     },
     hasCoaches() {
-      return !this.isLoading && this.$store.getters['coaches/hasCoaches'];
+      return !this.isLoading && this.hasCoaches;
     },
-    ...mapGetters('coaches', ['isACoach'])
+    ...mapGetters('coaches', ['isACoach', 'hasCoaches'])
   },
   created() {
     this.getCoaches();
@@ -97,9 +97,6 @@ export default {
         this.error = error.message || 'Something went wrong';
         this.isLoading = false;
       }
-
-
-
     }
   }
 };

@@ -20,8 +20,7 @@ const actions = {
       context.commit('addCoach', coachData)
       await context.dispatch('setUserId', response.name, {root: true})
     } else {
-      
-      alert(response.message)
+        throw new Error(response.message || "Coach could not be added")
     }
   },
   
