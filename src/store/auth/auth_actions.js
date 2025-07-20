@@ -16,14 +16,15 @@ const actions = {
   logout(context) {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
-    context.commit('setUserId', {token: null, userId: null, tokenExpiration: null});
+    localStorage.removeItem('tokenExpiration');
+    context.commit('setUserId', {token: null, userId: null});
   },
   autoLogin(context) {
     const token = localStorage.getItem('token')
     const userId = localStorage.getItem('userId')
     
     if (token && userId) {
-      context.commit('setUserId', {token, userId, tokenExpiration: null});
+      context.commit('setUserId', {token, userId});
     }
   },
   async authenticate(context, payload) {
@@ -42,14 +43,18 @@ const actions = {
     
     const response = await request.json();
     if (request.ok) {
+      console.log(response)
       context.commit('setUserId', {token: response.idToken,  userId: response.localId, tokenExpiration: response.expiresIn});
     } else {
       throw new Error(response.message || 'Failed to login');
     }
     
+    const expiresIn = +response.expiresIn * 1000
+    const expirationDate = new Date().getTime() + expiresIn;
     
     localStorage.setItem('token', response.idToken);
     localStorage.setItem('userId', response.localId);
+    localStorage.setItem('tokenExpiration', expirationDate);
   }
 }
 
