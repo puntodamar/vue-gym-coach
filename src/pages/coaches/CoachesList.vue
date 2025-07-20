@@ -83,8 +83,12 @@ export default {
     this.getCoaches();
   },
   methods: {
-    handleError: () => this.error = null,
-    setFilters: (filters) => this.activeFilters = filters,
+    handleError () {
+      this.error = null
+    },
+    setFilters(filters) {
+      this.activeFilters = filters
+    },
     async getCoaches(refresh = false) {
       if (refresh) {
         this.isLoading = true;
